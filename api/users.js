@@ -67,5 +67,16 @@ router.route('/delete').delete((req, res) => {
     })
 })
 
+router.route('/delete/:id').delete((req, res) => {
+    Todo.deleteOne({ _id: req.params.id }, (err) => {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            res.status(200).send("Single Data deleted Successfully")
+        }
+    })
+})
+
 
 module.exports = router

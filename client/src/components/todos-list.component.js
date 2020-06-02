@@ -22,15 +22,33 @@ class TodosList extends Component {
     }
 
     deleteCompleted() {
-        axios.delete('todos/delete')
-            .then(response => {
-                response.status(200)
-                console.log("Data deleted Successfully")
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        window.location.reload(true)
+        const arr = this.state.todos.filter(function (currentTodo) {
+            if (!currentTodo.todo_completed) {
+                return currentTodo
+            }
+        })
+        this.setState({
+            todos: [...arr]
+        })
+
+        axios.delete('/todos/delete')
+            .then(() => console.log("Data deleted"))
+            .catch(err => console.log(err))
+    }
+
+    deleteById(id) {
+        const arr = this.state.todo.filter(function (currentTodo) {
+            if (currentTodo._id !== id) {
+                return currentTodo
+            }
+        })
+        this.setState({
+            todos: [...arr]
+        })
+
+        axios.delete('todos/delete/' + id)
+            .then(() => console.log("Deleted todo:" + id))
+            .catch(err => console.log(err))
     }
 
     componentDidMount() {
@@ -41,11 +59,6 @@ class TodosList extends Component {
             .catch(function (error) {
                 console.log(error)
             })
-        return this.state.todos.map(function (currentTodo, i) {
-            if (currentTodo.todo_completed) {
-                return <Todo todo={currentTodo} key={i} />
-            }
-        })
     }
 
     todoList() {
