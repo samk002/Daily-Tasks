@@ -1,24 +1,17 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
 import '../index.css'
+import Todo from './Todo'
 
-const Todo = props => (
-    <tr>
-        <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_description}</td>
-        <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_responsible}</td>
-        <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_priority}</td>
-        <td>
-            <Link to={"/edit/" + props.todo._id}>Edit</Link>
-        </td>
-    </tr>
-)
 
 class TodosList extends Component {
     constructor(props) {
         super(props);
-        this.state = { todos: [] }
+        this.state = {
+            todos: [],
+        }
         this.deleteCompleted = this.deleteCompleted.bind(this);
+        this.deleteById = this.deleteById.bind(this)
     }
 
     deleteCompleted() {
@@ -36,8 +29,8 @@ class TodosList extends Component {
             .catch(err => console.log(err))
     }
 
-    deleteById(id) {
-        const arr = this.state.todo.filter(function (currentTodo) {
+    deleteById = (id) => {
+        const arr = this.state.todos.filter(function (currentTodo) {
             if (currentTodo._id !== id) {
                 return currentTodo
             }
@@ -62,10 +55,11 @@ class TodosList extends Component {
     }
 
     todoList() {
-        return this.state.todos.map(function (currentTodo, i) {
-            return <Todo todo={currentTodo} key={i} />
+        return this.state.todos.map((currentTodo, i) => {
+            return <Todo todo={currentTodo} deleteById={this.deleteById} key={i} />
         })
     }
+
     render() {
         return (
             <div>
@@ -77,6 +71,7 @@ class TodosList extends Component {
                             <th>Responsible</th>
                             <th>Priority</th>
                             <th>Action</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
