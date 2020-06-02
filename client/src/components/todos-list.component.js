@@ -18,6 +18,19 @@ class TodosList extends Component {
     constructor(props) {
         super(props);
         this.state = { todos: [] }
+        this.deleteCompleted = this.deleteCompleted.bind(this);
+    }
+
+    deleteCompleted() {
+        axios.delete('todos/delete')
+            .then(response => {
+                response.status(200)
+                console.log("Data deleted Successfully")
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        window.location.reload(true)
     }
 
     componentDidMount() {
@@ -28,6 +41,11 @@ class TodosList extends Component {
             .catch(function (error) {
                 console.log(error)
             })
+        return this.state.todos.map(function (currentTodo, i) {
+            if (currentTodo.todo_completed) {
+                return <Todo todo={currentTodo} key={i} />
+            }
+        })
     }
 
     todoList() {
@@ -52,6 +70,11 @@ class TodosList extends Component {
                         {this.todoList()}
                     </tbody>
                 </table>
+                <div>
+                    <button className="delete-complete" onClick={this.deleteCompleted}>
+                        Delete completed tasks
+                </button>
+                </div>
             </div>
         )
     }

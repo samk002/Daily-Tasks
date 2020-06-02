@@ -56,5 +56,16 @@ router.route('/update/:id').post((req, res) => {
     })
 })
 
+router.route('/delete').delete((req, res) => {
+    Todo.deleteMany({ todo_completed: "true" }, (err) => {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            res.status(200).send("Data deleted Successfully")
+        }
+    })
+})
+
 
 module.exports = router
