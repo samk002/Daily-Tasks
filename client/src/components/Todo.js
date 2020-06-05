@@ -21,7 +21,7 @@ class Todo extends React.Component {
                     <Link to={"/edit/" + this.props.todo._id}>Edit</Link>
                 </td>
                 <td className=''>
-                    <button value={this.props.todo._id} onClick={(e) => this.deleteById(e.target.value)}>
+                    <button value={this.props.todo.todo_id} onClick={(e) => this.deleteById(e.target.value)}>
                         X
                     </button>
                 </td>

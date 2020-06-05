@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import '../index.css'
 import Todo from './Todo'
+import CreateTodo from './create-todo.component';
 
 
 class TodosList extends Component {
@@ -12,6 +13,17 @@ class TodosList extends Component {
         }
         this.deleteCompleted = this.deleteCompleted.bind(this);
         this.deleteById = this.deleteById.bind(this)
+        this.addTodo = this.addTodo.bind(this)
+    }
+
+    addTodo(newTodo) {
+        var newArr = this.state.todos
+        newArr.push(newTodo)
+        this.setState(
+            {
+                todos: newArr
+            }
+        )
     }
 
     deleteCompleted() {
@@ -31,7 +43,7 @@ class TodosList extends Component {
 
     deleteById = (id) => {
         const arr = this.state.todos.filter(function (currentTodo) {
-            if (currentTodo._id !== id) {
+            if (currentTodo.todo_id !== id) {
                 return currentTodo
             }
         })
@@ -83,6 +95,7 @@ class TodosList extends Component {
                         Delete completed tasks
                 </button>
                 </div>
+                <CreateTodo addTodo={this.addTodo} />
             </div>
         )
     }

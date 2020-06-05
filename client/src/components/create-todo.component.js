@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 
 class CreateTodo extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            todo_id: '',
             todo_description: '',
             todo_responsible: '',
             todo_priority: '',
@@ -42,15 +44,16 @@ class CreateTodo extends Component {
         console.log(`Todo Responsible: ${this.state.todo_responsible}`);
         console.log(`Todo Priority: ${this.state.todo_priority}`);
 
+        const id = uuidv4()
         const newTodo = {
+            todo_id: id,
             todo_description: this.state.todo_description,
             todo_responsible: this.state.todo_responsible,
             todo_priority: this.state.todo_priority,
             todo_completed: this.state.todo_completed
         }
 
-        axios.post(`/todos/add`, newTodo)
-            .then(res => console.log(res.data))
+        this.props.addTodo(newTodo)
 
         this.setState({
             todo_description: '',
@@ -58,6 +61,9 @@ class CreateTodo extends Component {
             todo_priority: '',
             todo_completed: false
         })
+
+        axios.post(`/todos/add`, newTodo)
+            .then(res => console.log(res.data))
     }
     render() {
         return (

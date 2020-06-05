@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 
 const todoSchema = new Schema({
+    todo_id: {
+        type: String
+    },
     todo_description: {
         type: String
     },

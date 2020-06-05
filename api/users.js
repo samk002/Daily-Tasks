@@ -68,7 +68,7 @@ router.route('/delete').delete((req, res) => {
 })
 
 router.route('/delete/:id').delete((req, res) => {
-    Todo.deleteOne({ _id: req.params.id }, (err) => {
+    Todo.deleteOne({ todo_id: req.params.id }, (err) => {
         if (err) {
             console.log(err)
         }
